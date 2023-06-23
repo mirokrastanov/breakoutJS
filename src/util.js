@@ -66,6 +66,7 @@ export const game = {
             ball.velocity.y *= -1;
         }
         if ((ball.y > limits.bottom && ball.velocity.y > 0)
+            && (ball.y <= limits.bottom + ball.radius)
             && (ball.x >= mouse.x - padWidth / 2 - ball.radius)
             && (ball.x <= mouse.x + padWidth / 2 + ball.radius)) {
             ball.velocity.y *= -1;
