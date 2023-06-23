@@ -1,4 +1,4 @@
-# breakoutJS (Completed! README NYI...)
+# breakoutJS (completed! --> README NYI...)
 🎮⚾🌠▶️Web-based JavaScript implementation of the popular game - Breakout / Arkanoid.
 
 ## Live Demo
