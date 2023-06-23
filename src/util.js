@@ -1,6 +1,7 @@
 import {
     ctx, canvasWidth, canvasHeight, brickHeight, brickWidth,
     padHeight, padWidth, mouse, ball, stepSize, rate, limits,
+    bricks,
 } from './app.js';
 
 let lastTime = 0;
@@ -8,20 +9,32 @@ let delta = 0;
 
 export const game = {
     brick: function (x, y, color) {
+        ctx.strokeStyle = 'black';
+        ctx.strokeRect(x, y, brickWidth, brickHeight);
         ctx.fillStyle = color;
         ctx.fillRect(x, y, brickWidth, brickHeight);
     },
     pad: function (x) {
-        ctx.fillStyle = 'blue';
+        ctx.strokeStyle = 'black';
+        ctx.strokeRect(x - padWidth / 2, canvasHeight - 50, padWidth, padHeight);
+        ctx.fillStyle = 'aqua';
         ctx.fillRect(x - padWidth / 2, canvasHeight - 50, padWidth, padHeight);
     },
     genColor: function () {
-        const colors = ['blue', 'purple', 'velvet', 'lightgreen', 'orange', 'yellow']
-        let rng = Math.floor(Math.random() * 5);
-        return colors[rng];
+        let generator = Math.floor(Math.random() * 2 ** 24).toString(16).padStart(6, '0');
+        return `#${generator}`;
+    },
+    genBricks: function () {
+        bricks.length = 0;
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 10; col++) {
+                bricks.push({ x: col * brickWidth * 1.2 + 20, y: row * brickHeight * 2 + 100, color: game.genColor() });
+            }
+        }
     },
     render: function () {
         game.clear();
+        bricks.forEach(brick => game.brick(brick.x, brick.y, brick.color));
         game.pad(mouse.x);
         game.drawBall(ball.x, ball.y);
     },
@@ -45,6 +58,8 @@ export const game = {
         requestAnimationFrame(game.main);
     },
     start: function () {
+        game.genBricks();
+
         requestAnimationFrame(game.main);
     },
     drawBall: function (x, y) {

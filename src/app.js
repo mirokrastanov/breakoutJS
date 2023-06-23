@@ -21,6 +21,7 @@ export const limits = {
     left: 0 + ball.radius, right: canvasWidth - ball.radius,
     top: 0 + ball.radius, bottom: canvasHeight - 50 - ball.radius,
 };
+export const bricks = [];
 
 canvas.addEventListener('mousemove', game.onMouse);
 
