@@ -33,6 +33,7 @@ export const game = {
                     y: row * brickHeight * 2 + 100,
                     color: game.genColor(),
                     live: true,
+                    hits: 2,
                 });
             }
         }
@@ -43,6 +44,16 @@ export const game = {
             && (ball.y + ball.radius > b.y)
             && (ball.y - ball.radius < b.y + brickHeight)) {
             b.live = false;
+            if (ball.x < b.x && ball.velocity.x > 0) {
+                ball.velocity.x *= -1;
+            } else if (ball.x > b.x + brickWidth && ball.velocity.x < 0) {
+                ball.velocity.x *= -1;
+            }
+            if (ball.y < b.y && ball.velocity.y > 0) {
+                ball.velocity.y *= -1;
+            } else if (ball.y > b.y + brickHeight && ball.velocity.y < 0) {
+                ball.velocity.y *= -1;
+            }
         }
     },
     render: function () {
@@ -95,11 +106,18 @@ export const game = {
         if (ball.y < limits.top && ball.velocity.y < 0) {
             ball.velocity.y *= -1;
         }
+
+
         if ((ball.y > limits.bottom && ball.velocity.y > 0)
             && (ball.y <= limits.bottom + ball.radius)
             && (ball.x >= mouse.x - padWidth / 2 - ball.radius)
             && (ball.x <= mouse.x + padWidth / 2 + ball.radius)) {
             ball.velocity.y *= -1;
+
+            const x = ball.velocity.x + 100 * (ball.x - mouse.x) / padWidth;
+            const y = Math.sqrt(ball.speed ** 2 - x ** 2);
+            ball.velocity.x = x;
+            ball.velocity.y = -y;
         }
         bricks.forEach(b => {
             if (b.live) game.checkBrick(b);
