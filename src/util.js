@@ -7,6 +7,9 @@ import {
 let lastTime = 0;
 let delta = 0;
 const colors = ['black', '#00ff6e', '#00c3ff'];
+let gameOver = false;
+let frameIDs = [];
+let score = 0;
 
 export const game = {
     brick: function (x, y, color) {
@@ -67,14 +70,16 @@ export const game = {
         game.drawBall(ball.x, ball.y);
     },
     onMouse: function (e) {
-        mouse.x = e.offsetX;
         mouse.y = e.offsetY;
-
+        if (e.offsetX > 49 && e.offsetX < 797) mouse.x = e.offsetX;
+        else if (e.offsetX >= 797) mouse.x = Math.min(e.offsetX, canvasWidth + 3 - padWidth / 2);
+        else if (e.offsetX <= 49) mouse.x = Math.max(e.offsetX, padWidth / 2 + 2);
     },
     clear: function () {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     },
     main: function (time) {
+        if (gameOver) return;
         delta += time - lastTime;
         lastTime = time;
         if (delta > 1000) delta = stepSize;
@@ -84,12 +89,15 @@ export const game = {
         }
         game.render();
         // ctx.fillText(time, 20, 20);
-        requestAnimationFrame(game.main);
+        let id = requestAnimationFrame(game.main);
+        frameIDs.push(id);
     },
     start: function () {
+        gameOver = false;
         game.genBricks();
 
-        requestAnimationFrame(game.main);
+        let id = requestAnimationFrame(game.main);
+        frameIDs.push(id);
     },
     drawBall: function (x, y) {
         ctx.fillStyle = 'red';
@@ -110,7 +118,6 @@ export const game = {
         if (ball.y < limits.top && ball.velocity.y < 0) {
             ball.velocity.y *= -1;
         }
-
         if ((ball.y > limits.bottom && ball.velocity.y > 0)
             && (ball.y <= limits.bottom + ball.radius)
             && (ball.x >= mouse.x - padWidth / 2 - ball.radius)
@@ -121,6 +128,11 @@ export const game = {
             const y = Math.sqrt(ball.speed ** 2 - x ** 2);
             ball.velocity.x = x;
             ball.velocity.y = -y;
+        }
+        if (ball.y >= canvasHeight && !gameOver) {
+            gameOver = true;
+            game.clear();
+            game.gameOver();
         }
         bricks.forEach(b => {
             if (b.live) game.checkBrick(b);
@@ -133,8 +145,26 @@ export const game = {
         };
     },
     updateScore: function () {
-        let score = bricks.slice().filter(x => x.hits == 0).length * 1000;
+        score = bricks.slice().filter(x => x.hits == 0).length * 1000;
         document.querySelector('#score').textContent = `Score: ${score}`;
     },
-
+    genEndScreen: function () {
+        let button = document.querySelector('#end-btn');
+        button.style.display = 'block';
+        button.addEventListener('click', (e) => {
+            game.start();
+            button.style.display = 'none';
+        });
+    },
+    gameOver: function () {
+        frameIDs.forEach(x => cancelAnimationFrame(x));
+        frameIDs.length = 0;
+        ball.x = 400;
+        ball.y = 300;
+        ball.speed = 300;
+        ball.velocity = game.getVector(ball.speed, Math.PI / 4);
+        const choice = confirm(`Game Over!\nYour Score: ${score}\n\nPlay Again?`);
+        if (choice == true) return game.start();
+        else if (choice == false) return game.genEndScreen();
+    },
 };

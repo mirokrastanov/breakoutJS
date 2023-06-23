@@ -14,12 +14,13 @@ body {
 
 #canvas {
     border: 3px solid navy;
+    background-color: rgba(185, 143, 224, 0.692);
 }
 
 #end-btn {
     position: absolute;
     display: block;
-    top: 40%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-image: linear-gradient(to right, #0a6be9 0%, #20f8ff  51%, #0a6be9  100%);
