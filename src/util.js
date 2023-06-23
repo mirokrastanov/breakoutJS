@@ -1,8 +1,10 @@
 import {
     ctx, canvasWidth, canvasHeight, brickHeight, brickWidth,
-    padHeight, padWidth, mouse, ball,
+    padHeight, padWidth, mouse, ball, stepSize, rate, limits,
 } from './app.js';
 
+let lastTime = 0;
+let delta = 0;
 
 export const game = {
     brick: function (x, y, color) {
@@ -30,9 +32,16 @@ export const game = {
     clear: function () {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     },
-    main: function () {
-        game.tick();
+    main: function (time) {
+        delta += time - lastTime;
+        lastTime = time;
+        if (delta > 1000) delta = 20;
+        while (delta >= 20) {
+            delta -= 20;
+            game.tick();
+        }
         game.render();
+        // ctx.fillText(time, 20, 20);
         requestAnimationFrame(game.main);
     },
     start: function () {
@@ -42,13 +51,28 @@ export const game = {
         ctx.fillStyle = 'red';
         ctx.beginPath();
         ctx.moveTo(x, y);
-        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.arc(x, y, ball.radius, 0, Math.PI * 2);
         ctx.closePath();
         ctx.fill();
     },
     tick: function () {
-        ball.x += ball.velocity.x;
-        ball.y += ball.velocity.y;
+        ball.x += ball.velocity.x / rate;
+        ball.y += ball.velocity.y / rate;
+        if ((ball.x > limits.right && ball.velocity.x > 0)
+            || (ball.x < limits.left && ball.velocity.x < 0)) {
+            ball.velocity.x *= -1;
+        }
+        if ((ball.y > limits.bottom && ball.velocity.y > 0)
+            || (ball.y < limits.top && ball.velocity.y < 0)) {
+            ball.velocity.y *= -1;
+        }
+
+    },
+    getVector: function (speed, dir) {
+        return {
+            x: Math.cos(dir) * speed,
+            y: Math.sin(dir) * speed,
+        };
     },
 
 };
