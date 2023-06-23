@@ -10,6 +10,7 @@ const colors = ['black', '#00ff6e', '#00c3ff'];
 let gameOver = false;
 let frameIDs = [];
 let score = 0;
+let winScore;
 
 export const game = {
     brick: function (x, y, color) {
@@ -41,6 +42,14 @@ export const game = {
                 });
             }
         }
+        // TEST CODE - gen only 1 brick with 1 life for testing
+        // bricks.push({
+        //     x: 0 * brickWidth * 1.2 + 15,
+        //     y: 0 * brickHeight * 2 + 100,
+        //     color: colors[1],
+        //     live: true,
+        //     hits: 1,
+        // });
     },
     checkBrick: function (b) {
         if ((ball.x + ball.radius > b.x)
@@ -94,8 +103,9 @@ export const game = {
     },
     start: function () {
         gameOver = false;
+        winScore = undefined;
         game.genBricks();
-
+        winScore = bricks.slice().filter(x => x.hits != 0).length * 1000;
         let id = requestAnimationFrame(game.main);
         frameIDs.push(id);
     },
@@ -129,7 +139,7 @@ export const game = {
             ball.velocity.x = x;
             ball.velocity.y = -y;
         }
-        if (ball.y >= canvasHeight && !gameOver) {
+        if ((ball.y >= canvasHeight || score == winScore) && !gameOver) {
             gameOver = true;
             game.clear();
             game.gameOver();
@@ -149,11 +159,14 @@ export const game = {
         document.querySelector('#score').textContent = `Score: ${score}`;
     },
     genEndScreen: function () {
+        let winner = document.querySelector('#winner');
         let button = document.querySelector('#end-btn');
         button.style.display = 'block';
+        if (score == winScore) winner.style.display = 'block';
         button.addEventListener('click', (e) => {
             game.start();
             button.style.display = 'none';
+            winner.style.display = 'none';
         });
     },
     gameOver: function () {
