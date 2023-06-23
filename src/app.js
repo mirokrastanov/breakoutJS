@@ -19,7 +19,7 @@ export const ball = { x: 400, y: 300, velocity: {}, radius: 10, speed: 300, };
 ball.velocity = game.getVector(ball.speed, Math.PI / 4);
 export const limits = {
     left: 0 + ball.radius, right: canvasWidth - ball.radius,
-    top: 0 + ball.radius, bottom: canvasHeight - ball.radius
+    top: 0 + ball.radius, bottom: canvasHeight - 50 - ball.radius,
 };
 
 canvas.addEventListener('mousemove', game.onMouse);
