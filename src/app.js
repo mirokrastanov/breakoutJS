@@ -25,4 +25,4 @@ export const bricks = [];
 
 canvas.addEventListener('mousemove', game.onMouse);
 
-game.start();
+setTimeout(game.start, 2000);
