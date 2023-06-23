@@ -27,14 +27,29 @@ export const game = {
     genBricks: function () {
         bricks.length = 0;
         for (let row = 0; row < 5; row++) {
-            for (let col = 0; col < 10; col++) {
-                bricks.push({ x: col * brickWidth * 1.2 + 20, y: row * brickHeight * 2 + 100, color: game.genColor() });
+            for (let col = 0; col < 13; col++) {
+                bricks.push({
+                    x: col * brickWidth * 1.2 + 15,
+                    y: row * brickHeight * 2 + 100,
+                    color: game.genColor(),
+                    live: true,
+                });
             }
+        }
+    },
+    checkBrick: function (b) {
+        if ((ball.x + ball.radius > b.x)
+            && (ball.x - ball.radius < b.x + brickWidth)
+            && (ball.y + ball.radius > b.y)
+            && (ball.y - ball.radius < b.y + brickHeight)) {
+            b.live = false;
         }
     },
     render: function () {
         game.clear();
-        bricks.forEach(brick => game.brick(brick.x, brick.y, brick.color));
+        bricks.forEach(b => {
+            if (b.live) game.brick(b.x, b.y, b.color);
+        });
         game.pad(mouse.x);
         game.drawBall(ball.x, ball.y);
     },
@@ -86,7 +101,9 @@ export const game = {
             && (ball.x <= mouse.x + padWidth / 2 + ball.radius)) {
             ball.velocity.y *= -1;
         }
-
+        bricks.forEach(b => {
+            if (b.live) game.checkBrick(b);
+        });
     },
     getVector: function (speed, dir) {
         return {
