@@ -12,7 +12,7 @@ export const brickHeight = 15;
 export const padWidth = 100;
 export const padHeight = 20;
 export const mouse = { x: 0, y: 0 };
-
+export const ball = { x: 400, y: 300, velocity: { x: 2, y: 2 }, };
 
 canvas.addEventListener('mousemove', game.onMouse);
 

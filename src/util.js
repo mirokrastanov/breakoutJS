@@ -1,4 +1,7 @@
-import { ctx, canvasWidth, canvasHeight, brickHeight, brickWidth, padHeight, padWidth, mouse, } from './app.js';
+import {
+    ctx, canvasWidth, canvasHeight, brickHeight, brickWidth,
+    padHeight, padWidth, mouse, ball,
+} from './app.js';
 
 
 export const game = {
@@ -18,6 +21,7 @@ export const game = {
     render: function () {
         game.clear();
         game.pad(mouse.x);
+        game.drawBall(ball.x, ball.y);
     },
     onMouse: function (e) {
         mouse.x = e.offsetX;
@@ -27,11 +31,24 @@ export const game = {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     },
     main: function () {
+        game.tick();
         game.render();
         requestAnimationFrame(game.main);
     },
     start: function () {
         requestAnimationFrame(game.main);
+    },
+    drawBall: function (x, y) {
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+    },
+    tick: function () {
+        ball.x += ball.velocity.x;
+        ball.y += ball.velocity.y;
     },
 
 };
