@@ -80,8 +80,8 @@ export const game = {
     },
     onMouse: function (e) {
         mouse.y = e.offsetY;
-        if (e.offsetX > 49 && e.offsetX < 797) mouse.x = e.offsetX;
-        else if (e.offsetX >= 797) mouse.x = Math.min(e.offsetX, canvasWidth + 3 - padWidth / 2);
+        if (e.offsetX > 49 && e.offsetX < 749) mouse.x = e.offsetX;
+        else if (e.offsetX >= 749) mouse.x = Math.min(e.offsetX, canvasWidth + 3 - padWidth / 2);
         else if (e.offsetX <= 49) mouse.x = Math.max(e.offsetX, padWidth / 2 + 2);
     },
     clear: function () {
