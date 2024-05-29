@@ -1,10 +1,12 @@
 # Breakout (Arkanoid) JS
 🎮⚾🌠▶️Web-based JavaScript implementation of the popular game - Breakout / Arkanoid.
-<p align="center"><a href="https://breakout.mirokrastanov.repl.co/"><img src="https://github.com/mirokrastanov/breakoutJS/blob/main/src/previews/br-5.png?raw=true" alt="game-image" height="600px"></a></p>
+<p align="center"><a href="https://breakout-m-krastanov.glitch.me/"><img src="https://github.com/mirokrastanov/breakoutJS/blob/main/src/previews/br-5.png?raw=true" alt="game-image" height="600px"></a></p>
 
 ## Live Demo
-[<img src="https://freepngimg.com/download/play_now_button/25403-5-play-now-button-transparent.png" alt="run-button" height="40px" />](https://breakout.mirokrastanov.repl.co/)
-  
+[<img src="https://freepngimg.com/download/play_now_button/25403-5-play-now-button-transparent.png" alt="run-button" height="40px" />](https://breakout-m-krastanov.glitch.me/)
+### The Demo is also available in my app library 
+- Check out the [App Library](https://app-library-13e36.web.app/)
+
 ## Description
 - The game [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)) also known as [Arkanoid](https://en.wikipedia.org/wiki/Arkanoid) is a block breaker arcade game. Controlling a small pad, the player is tasked with clearing a formation of blocks by deflecting a ball towards it without letting the ball leave the bottom edge of the playfield.
 - The implementation of the game has bricks with 2 lives.
@@ -30,7 +32,7 @@
 <br />
 
 ## Live Demo
-[<img src="https://freepngimg.com/download/play_now_button/25403-5-play-now-button-transparent.png" alt="run-button" height="40px" />](https://breakout.mirokrastanov.repl.co/)
+[<img src="https://freepngimg.com/download/play_now_button/25403-5-play-now-button-transparent.png" alt="run-button" height="40px" />](https://breakout-m-krastanov.glitch.me/)
 
 ## [Source Code](https://github.com/mirokrastanov/breakoutJS/tree/main/src)
   
